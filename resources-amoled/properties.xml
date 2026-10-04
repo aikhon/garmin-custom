@@ -1,0 +1,3 @@
+<properties>
+    <property id="amoled" type="boolean">true</property>
+</properties>

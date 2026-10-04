@@ -1,0 +1,13 @@
+.tools/
+.secrets/
+bin/
+build/
+*.prg
+*.prg.debug.xml
+*.iq
+*.der
+*.pem
+*.key
+*.log
+.vscode/settings.json
+
