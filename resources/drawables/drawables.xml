@@ -1,3 +1,5 @@
 <drawables>
     <bitmap id="LauncherIcon" filename="launcher.png"/>
+    <bitmap id="ClubLogo" filename="../../media/logos/logo-runclub-black.png"
+        scaleX="64%" scaleY="21.3778%" scaleRelativeTo="screen" dithering="none"/>
 </drawables>

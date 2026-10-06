@@ -11,8 +11,7 @@ class RunclubView extends WatchUi.WatchFace {
     private var _amoled as Boolean = false;
     private var _data as FaceData;
     private var _lastMinute as Number = -1;
-    private var _club as String;
-    private var _tagline as String;
+    private var _logo as WatchUi.BitmapResource;
     private var _stepsLabel as String;
     private var _heartLabel as String;
 
@@ -20,8 +19,7 @@ class RunclubView extends WatchUi.WatchFace {
         WatchFace.initialize();
         _data = new FaceData();
         _amoled = Application.Properties.getValue("amoled") as Boolean;
-        _club = WatchUi.loadResource(Rez.Strings.ClubName) as String;
-        _tagline = WatchUi.loadResource(Rez.Strings.ClubTagline) as String;
+        _logo = WatchUi.loadResource(Rez.Drawables.ClubLogo) as WatchUi.BitmapResource;
         _stepsLabel = WatchUi.loadResource(Rez.Strings.StepsLabel) as String;
         _heartLabel = WatchUi.loadResource(Rez.Strings.HeartLabel) as String;
     }
@@ -44,7 +42,7 @@ class RunclubView extends WatchUi.WatchFace {
         var clock = System.getClockTime();
         var settings = System.getDeviceSettings();
         var timeText = FaceFormat.time(clock.hour, clock.min, settings.is24Hour);
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.setColor(ClubArtwork.FOREGROUND, (_sleeping && _amoled) ? Graphics.COLOR_BLACK : ClubArtwork.BACKGROUND);
         dc.clear();
 
         if (_sleeping && _amoled) {
@@ -63,22 +61,15 @@ class RunclubView extends WatchUi.WatchFace {
         if (!settings.is24Hour) { topLine += clock.hour < 12 ? " / AM" : " / PM"; }
         label(dc, topLine, w/2, 23*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 110*s);
         label(dc, (date.day_of_week as String).toUpper() + " " + date.day.format("%02d") + " " + (date.month as String).toUpper(),
-            w/2, 48*s, Graphics.FONT_XTINY, ClubArtwork.ACCENT, 170*s);
-        label(dc, timeText, w/2, 84*s, Graphics.FONT_NUMBER_THAI_HOT, ClubArtwork.WHITE, 218*s);
-        label(dc, FaceFormat.steps(_data.stepCount), 82*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 100*s);
-        label(dc, FaceFormat.heart(_data.heartRate), 179*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 70*s);
+            w/2, 48*s, Graphics.FONT_XTINY, ClubArtwork.FOREGROUND, 170*s);
+        label(dc, timeText, w/2, 84*s, Graphics.FONT_NUMBER_THAI_HOT, ClubArtwork.FOREGROUND, 218*s);
+        label(dc, FaceFormat.steps(_data.stepCount), 82*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.FOREGROUND, 100*s);
+        label(dc, FaceFormat.heart(_data.heartRate), 179*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.FOREGROUND, 70*s);
         label(dc, _stepsLabel, 82*s, 151*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 85*s);
         label(dc, _heartLabel, 179*s, 151*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 65*s);
         dc.setColor(0x444444, Graphics.COLOR_TRANSPARENT);
         dc.drawLine(130*s, 125*s, 130*s, 151*s);
-        ClubArtwork.draw(dc, w);
-        label(dc, _club, w/2, (w >= 390 ? 220 : 228)*s, Graphics.FONT_TINY, ClubArtwork.ACCENT, 140*s);
-        // Small MIP screens get only the main club name to preserve readability.
-        if (w >= 390) {
-            if (dc.getTextWidthInPixels(_tagline, Graphics.FONT_XTINY) <= 110*s) {
-                label(dc, _tagline, w/2, 239*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 110*s);
-            }
-        }
+        ClubArtwork.draw(dc, w, _logo);
     }
 
     private function drawAlwaysOn(dc as Graphics.Dc, text as String, minute as Number, is24 as Boolean, hour as Number) as Void {

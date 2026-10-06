@@ -1,10 +1,10 @@
 # Runclub Garmin watch face
 
-A Connect IQ / Monkey C prototype with original placeholder club artwork. The watch face shows digital time, date, battery, steps, and recent heart rate above a running track and two runners. Replace the branding when the club media is ready.
+A Connect IQ / Monkey C prototype displaying the supplied Run Club Atyrau logo below digital time, date, battery, steps, and recent heart rate.
 
-Club colors are black (`#000000`) and lime (`#CCFC00`), recorded in `media/branding.txt`. The track, date, club name, and launcher icons use lime; data uses readable white/gray. MIP devices map the accent to their supported palette.
+The active face uses the original black logo (`#000000`) on a lime background (`#CCFC00`), with dark text. Club colors and the logo source are recorded in `media/branding.txt`. MIP devices map lime to their supported palette. The AMOLED sleep view uses a gray clock on black.
 
-**Status:** debug, release, and test builds compile without warnings for the Forerunner 255, 265, and 965 using Connect IQ SDK 9.2.0. Both formatting tests pass on all three Garmin simulators. Release binaries are in `bin/`; simulator evidence and the remaining hardware checks are recorded in [docs/VALIDATION.md](docs/VALIDATION.md).
+**Status:** debug and release builds compile without warnings for the Forerunner 255, 265, and 965 using Connect IQ SDK 9.2.0. Formatting tests passed on all three Garmin simulators before the visual branding update; data formatting is unchanged. Release binaries are in `bin/`; simulator evidence and the remaining hardware checks are recorded in [docs/VALIDATION.md](docs/VALIDATION.md).
 
 ## Initial targets
 
@@ -60,8 +60,8 @@ If the compiler reports **Invalid device id**, the required Garmin device profil
 - Heart rate uses a positive recorded sample from the last five minutes. Missing or zero readings show `--`. This is recent history, not a live sensor stream. The app does not enable sensors, request location, store health data, or make network requests.
 - Data reads are cached for the current minute. Garmin controls watch-face update callbacks; there are no timers, animations, seconds display, or partial updates.
 - AMOLED devices use a build-time display profile, including models whose `requiresBurnInProtection` flag is false. The sleep clock moves among four separate bands; see the validation record for measured pixel coverage. Always-on behavior also depends on the watch's system settings.
-- The small MIP layout omits the tagline. System fonts have size fallbacks, and coordinates scale from a 260-pixel round canvas.
-- Change club name and tagline in `resources/strings/strings.xml`. Original placeholder geometry and colors live in `source/ClubArtwork.mc`; it contains no time or health-data logic. Replace its drawing with club bitmap resources later and use device/family resource overrides for resolution-specific assets. Do not bake changing numbers into artwork.
+- System fonts have size fallbacks, and coordinates scale from a 260-pixel round canvas. The supplied logo replaces the placeholder illustration and text branding.
+- The original logo is `media/logos/logo-runclub-black.png`. Its bitmap resource in `resources/drawables/drawables.xml` scales it at build time, retaining transparency and proportions. Colors and positioning live in `source/ClubArtwork.mc`; it contains no time or health-data logic. Do not bake changing numbers into artwork.
 - `resources-amoled/properties.xml` selects the AMOLED sleep behavior for the two AMOLED product entries in `monkey.jungle`. Add this override for any future AMOLED target.
 
 ## Validation

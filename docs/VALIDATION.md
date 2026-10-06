@@ -1,16 +1,16 @@
 # Prototype validation
 
-Validated on 6 October 2026 using Garmin Connect IQ SDK 9.2.0 and the official device profiles. The artwork and club name are placeholders.
+Validated on 6 October 2026 using Garmin Connect IQ SDK 9.2.0 and the official device profiles. The supplied black Run Club Atyrau logo is displayed on a lime background.
 
-The club's confirmed black (`#000000`) and lime (`#CCFC00`) palette is applied to the active face and launcher icons. After this color update, debug and release builds passed without warnings for all three targets and the active previews were refreshed. Formatting logic and the gray always-on clock are unchanged from the tested version.
+After the logo update, debug and release builds passed without warnings for all three targets and the active previews were inspected and refreshed. The original transparent PNG is scaled by Garmin's resource compiler. The 965 sleep/wake check confirmed that the lime active face switches to the dark always-on clock and returns on wake. Formatting logic is unchanged from the tested version.
 
 ## Build and runtime results
 
-| Target | Debug / release / test builds | Formatting tests | Observed simulator memory |
+| Target | Debug / release builds | Formatting tests (before branding update) | Observed simulator memory |
 | --- | --- | --- | --- |
-| Forerunner 255 | Pass, no compiler warnings | 2 passed, 0 failed | About 9.2 KB of 123.9 KB available |
-| Forerunner 265 | Pass, no compiler warnings | 2 passed, 0 failed | About 9.3 KB of 123.9 KB available |
-| Forerunner 965 | Pass, no compiler warnings | 2 passed, 0 failed | About 9.3 KB of 123.9 KB available |
+| Forerunner 255 | Pass, no compiler warnings | 2 passed, 0 failed | About 8.6 KB of 123.9 KB available |
+| Forerunner 265 | Pass, no compiler warnings | 2 passed, 0 failed | About 8.7 KB of 123.9 KB available |
+| Forerunner 965 | Pass, no compiler warnings | 2 passed, 0 failed | About 8.7 KB of 123.9 KB available |
 
 Memory values are observed simulator readings, not measured physical battery consumption or exhaustive peak-memory profiles. Signing keys are local and excluded from version control.
 
@@ -21,7 +21,7 @@ Memory values are observed simulator readings, not measured physical battery con
 
 ## Visual and display checks
 
-Active layouts were inspected on all three target simulators. Time, date, battery, stats, illustration, and club name fit the round screens. AMOLED taglines fit; the smaller MIP layout omits the tagline. An earlier clipping issue was corrected by moving the lower artwork inward and spacing the stats and labels.
+Active layouts were inspected on all three target simulators. Time, date, battery, stats, and the actual club logo fit the round screens. Dark text and black logo artwork remain readable on the lime background. Tiny lettering inside the logo is naturally less detailed on the 260-pixel MIP screen.
 
 The Forerunner 265 completed Garmin's accelerated 24-hour burn-in simulation with screen protection enabled and **Burn-in State: NO**. Observed always-on luminance usage was approximately 0.15-0.2%, below Garmin's 10% limit. The Forerunner 965 received a brief always-on and wake check; its diagnostic reported **Burn-in State: NO** and **0.31%** usage. A second full 24-hour simulation was intentionally omitted for this prototype.
 

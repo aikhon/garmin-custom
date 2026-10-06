@@ -1,45 +1,17 @@
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.WatchUi;
 
-// Self-contained placeholder artwork. Replace draw() with club bitmap resources
-// later; all time/data rendering remains in RunclubView.
+// Shared brand colors and the supplied club logo. The resource compiler scales
+// the original PNG while retaining its black ink and transparency.
 module ClubArtwork {
     const ACCENT = 0xCCFC00;
-    const BACKGROUND = 0x000000;
-    const MUTED = 0xAAAAAA;
-    const WHITE = 0xFFFFFF;
+    const BACKGROUND = 0xCCFC00;
+    const FOREGROUND = 0x000000;
+    const MUTED = 0x333333;
 
-    function draw(dc as Graphics.Dc, width as Number) as Void {
+    function draw(dc as Graphics.Dc, width as Number, logo as WatchUi.BitmapResource) as Void {
         var s = width / 260.0;
-        dc.setColor(BACKGROUND, Graphics.COLOR_TRANSPARENT);
-        dc.fillRoundedRectangle(42*s, 163*s, 176*s, 45*s, 22*s);
-        dc.setPenWidth(1);
-        dc.setColor(ACCENT, Graphics.COLOR_TRANSPARENT);
-        for (var lane = 0; lane < 3; lane += 1) {
-            var inset = lane * 6;
-            dc.drawRoundedRectangle((46+inset)*s, (167+inset)*s,
-                (168-inset*2)*s, (37-inset*2)*s, (18-inset)*s);
-        }
-        // Two runners, an original scalable line illustration.
-        runner(dc, 112*s, 184*s, s, WHITE);
-        runner(dc, 148*s, 180*s, s, ACCENT);
-        dc.setPenWidth(1);
-    }
-
-    function runner(dc as Graphics.Dc, x as Float, y as Float, s as Float, color as Number) as Void {
-        dc.setColor(BACKGROUND, Graphics.COLOR_TRANSPARENT);
-        dc.fillRectangle(x-13*s, y-16*s, 29*s, 31*s);
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        dc.setPenWidth((2*s).toNumber());
-        dc.fillCircle(x+3*s, y-12*s, 3*s);
-        dc.drawLine(x+1*s,y-7*s, x-3*s,y+3*s);
-        dc.drawLine(x,y-6*s, x+8*s,y-1*s);
-        dc.drawLine(x+8*s,y-1*s, x+13*s,y-6*s);
-        dc.drawLine(x,y-6*s, x-7*s,y-7*s);
-        dc.drawLine(x-7*s,y-7*s, x-11*s,y-1*s);
-        dc.drawLine(x-3*s,y+3*s, x+5*s,y+8*s);
-        dc.drawLine(x+5*s,y+8*s, x+9*s,y+15*s);
-        dc.drawLine(x-3*s,y+3*s, x-8*s,y+12*s);
-        dc.drawLine(x-8*s,y+12*s, x-16*s,y+12*s);
+        dc.drawBitmap((width-logo.getWidth())/2, 200*s-logo.getHeight()/2, logo);
     }
 }

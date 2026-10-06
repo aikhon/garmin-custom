@@ -1,6 +1,7 @@
-Primary background: #000000 (black)
-Primary accent: #CCFC00 (lime)
+Primary background: #CCFC00 (lime)
+Primary foreground and logo: #000000 (black)
 
 Confirmed by the club on 6 October 2026.
-Club name, logo selection, fonts, and final artwork are still to be confirmed.
-White and neutral gray are used for readable watch data and the AMOLED sleep clock.
+Logo: logos/logo-runclub-black.png (original black artwork).
+Fonts and any additional artwork are still to be confirmed.
+Dark gray is used for secondary watch data. The AMOLED sleep clock is gray on black.
