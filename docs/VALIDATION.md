@@ -1,33 +1,40 @@
 # Prototype validation
 
-## Completed in this workspace
+Validated on 6 October 2026 using Garmin Connect IQ SDK 9.2.0 and the official device profiles. The artwork and club name are placeholders.
 
-- Connect IQ SDK 9.2.0 downloaded from Garmin; compiler version/help commands run successfully under Java 1.8.0_401.
-- Official Garmin Monkey C VS Code extension 1.1.3 installed.
-- Local RSA signing key generated in ignored `.secrets`; original launcher icon generated.
-- Source reviewed against the installed SDK's API declarations and watch-face guidance.
-- All four resource XML files pass the SDK's `resources.xsd`; the manifest is well-formed XML.
-- All five PowerShell scripts pass PowerShell parser checks; VS Code JSON configuration parses successfully.
+The club's confirmed black (`#000000`) and lime (`#CCFC00`) palette is applied to the active face and launcher icons. After this color update, debug and release builds passed without warnings for all three targets and the active previews were refreshed. Formatting logic and the gray always-on clock are unchanged from the tested version.
 
-## Pending
+## Build and runtime results
 
-The user chose to continue without simulator testing. Garmin device profiles are not installed. A build attempt for `fr265` stops with `Invalid device id specified: 'fr265'` before source compilation. A generic build also cannot resolve the device qualifiers. **Source compilation, unit-test execution, memory use, rendered screenshots, and always-on pixel coverage have not been verified.**
+| Target | Debug / release / test builds | Formatting tests | Observed simulator memory |
+| --- | --- | --- | --- |
+| Forerunner 255 | Pass, no compiler warnings | 2 passed, 0 failed | About 9.2 KB of 123.9 KB available |
+| Forerunner 265 | Pass, no compiler warnings | 2 passed, 0 failed | About 9.3 KB of 123.9 KB available |
+| Forerunner 965 | Pass, no compiler warnings | 2 passed, 0 failed | About 9.3 KB of 123.9 KB available |
 
-After signing in to SDK Manager and downloading all three profiles and fonts:
+Memory values are observed simulator readings, not measured physical battery consumption or exhaustive peak-memory profiles. Signing keys are local and excluded from version control.
 
-| Check | Acceptance |
-| --- | --- |
-| Compile debug and release for all three targets | Successful compiler exit, no unresolved symbols or type errors |
-| Execute test builds | Both formatting tests pass in the simulator |
-| Default face, all screen sizes | Time, date, stats, track, and club name fit the round screen without overlap |
-| 00:00, 12:00, 23:59; 12- and 24-hour modes | Correct time, minute zero padding, AM/PM; no clipping |
-| 0, 1,000, 99,999, 100,000 steps; HR absent/zero | Readable formatting, real zero steps, `--` for missing HR |
-| Battery 0%, 100%; unavailable tracking | No crash; battery remains visible; unavailable steps show `--` |
-| Date rollover and available system languages | Day/date advances correctly; abbreviations fit |
-| AMOLED enter/exit sleep, both targets | Artwork disappears in sleep, time remains, full face returns on wake |
-| AMOLED four-minute cycle and heat-map test | Fewer than 10% of display pixels lit; disjoint clock bands; no burn-in violation |
-| MIP low-power mode | Full layout remains readable; no partial-update budget errors |
-| Runtime profiling | Memory stays within each device's watch-face limits |
-| Screenshots | Save genuine simulator captures for each target's active face and AMOLED sleep face |
+- `timeBoundaries` checks midnight, noon, 23:59, 12/24-hour formatting, and minute zero padding.
+- `missingAndLargeData` checks missing/zero heart rate, zero steps, comma-separated steps through 99,999, abbreviated 100,000 steps, and battery boundaries.
+- All six resource XML files pass the installed SDK's `resources.xsd`. PowerShell scripts pass syntax checks.
+- Launcher icons use each device's specified dimensions: 40 x 40, 60 x 60, and 65 x 65 respectively.
 
-On a physical watch, check outdoor legibility, wrist-off HR behavior, system always-on settings, and battery usage over normal use. Simulator results cannot establish physical battery life.
+## Visual and display checks
+
+Active layouts were inspected on all three target simulators. Time, date, battery, stats, illustration, and club name fit the round screens. AMOLED taglines fit; the smaller MIP layout omits the tagline. An earlier clipping issue was corrected by moving the lower artwork inward and spacing the stats and labels.
+
+The Forerunner 265 completed Garmin's accelerated 24-hour burn-in simulation with screen protection enabled and **Burn-in State: NO**. Observed always-on luminance usage was approximately 0.15-0.2%, below Garmin's 10% limit. The Forerunner 965 received a brief always-on and wake check; its diagnostic reported **Burn-in State: NO** and **0.31%** usage. A second full 24-hour simulation was intentionally omitted for this prototype.
+
+Additional smoke checks on downloaded MIP and AMOLED profiles confirmed readable rendering of 99,999 steps with missing heart rate, 12/24-hour mode changes, and the moving sleep clock. These do not add those models to the supported manifest.
+
+These are genuine simulator window captures with simulated watch data:
+
+- [255 active](previews/fr255-active.png)
+- [265 active](previews/fr265-active.png), [always-on](previews/fr265-always-on.png), [completed burn-in diagnostic](previews/fr265-diagnostics.png)
+- [965 active](previews/fr965-active.png), [always-on](previews/fr965-always-on.png), [diagnostic](previews/fr965-diagnostics.png), [wake](previews/fr965-wake.png)
+
+## Delivery and remaining checks
+
+`bin/runclub-prototype.zip` contains the three model-specific release `.prg` files and USB installation instructions. Individual release binaries are also in `bin/`. No private keys or SDK files are included in the package.
+
+Before club-wide distribution, install the matching build on a physical watch and check outdoor legibility, recorded heart-rate availability, date rollover, system always-on settings, and battery use over normal wear. Non-English date rendering has not been exhaustively checked. Club branding, further device support, and Connect IQ Store publication are later steps.

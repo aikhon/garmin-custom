@@ -69,7 +69,7 @@ class RunclubView extends WatchUi.WatchFace {
         label(dc, FaceFormat.heart(_data.heartRate), 179*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 70*s);
         label(dc, _stepsLabel, 82*s, 151*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 85*s);
         label(dc, _heartLabel, 179*s, 151*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 65*s);
-        dc.setColor(0x335555, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(0x444444, Graphics.COLOR_TRANSPARENT);
         dc.drawLine(130*s, 125*s, 130*s, 151*s);
         ClubArtwork.draw(dc, w);
         label(dc, _club, w/2, (w >= 390 ? 220 : 228)*s, Graphics.FONT_TINY, ClubArtwork.ACCENT, 140*s);

@@ -4,13 +4,14 @@ import Toybox.Lang;
 // Self-contained placeholder artwork. Replace draw() with club bitmap resources
 // later; all time/data rendering remains in RunclubView.
 module ClubArtwork {
-    const ACCENT = 0x55DDCC;
-    const MUTED = 0x99AAAA;
+    const ACCENT = 0xCCFC00;
+    const BACKGROUND = 0x000000;
+    const MUTED = 0xAAAAAA;
     const WHITE = 0xFFFFFF;
 
     function draw(dc as Graphics.Dc, width as Number) as Void {
         var s = width / 260.0;
-        dc.setColor(0x115544, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(BACKGROUND, Graphics.COLOR_TRANSPARENT);
         dc.fillRoundedRectangle(42*s, 163*s, 176*s, 45*s, 22*s);
         dc.setPenWidth(1);
         dc.setColor(ACCENT, Graphics.COLOR_TRANSPARENT);
@@ -26,7 +27,7 @@ module ClubArtwork {
     }
 
     function runner(dc as Graphics.Dc, x as Float, y as Float, s as Float, color as Number) as Void {
-        dc.setColor(0x115544, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(BACKGROUND, Graphics.COLOR_TRANSPARENT);
         dc.fillRectangle(x-13*s, y-16*s, 29*s, 31*s);
         dc.setColor(color, Graphics.COLOR_TRANSPARENT);
         dc.setPenWidth((2*s).toNumber());

@@ -2,5 +2,5 @@ project.manifest = manifest.xml
 base.sourcePath = source
 base.resourcePath = resources
 base.excludeAnnotations = test
-fr265.resourcePath = $(base.resourcePath);resources-amoled
-fr965.resourcePath = $(base.resourcePath);resources-amoled
+fr265.resourcePath = $(base.resourcePath);resources-amoled;resources-fr265
+fr965.resourcePath = $(base.resourcePath);resources-amoled;resources-fr965

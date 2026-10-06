@@ -1,0 +1,6 @@
+Primary background: #000000 (black)
+Primary accent: #CCFC00 (lime)
+
+Confirmed by the club on 6 October 2026.
+Club name, logo selection, fonts, and final artwork are still to be confirmed.
+White and neutral gray are used for readable watch data and the AMOLED sleep clock.
