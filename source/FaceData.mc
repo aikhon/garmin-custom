@@ -23,8 +23,9 @@ class FaceData {
             });
             var sample = iterator.next();
             while (sample != null) {
-                if (sample.data != null && sample.data > 0) {
-                    heartRate = sample.data.toNumber();
+                var reading = sample.data;
+                if (reading != null && reading > 0) {
+                    heartRate = reading.toNumber();
                     break;
                 }
                 sample = iterator.next();

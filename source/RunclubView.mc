@@ -65,17 +65,19 @@ class RunclubView extends WatchUi.WatchFace {
         label(dc, (date.day_of_week as String).toUpper() + " " + date.day.format("%02d") + " " + (date.month as String).toUpper(),
             w/2, 48*s, Graphics.FONT_XTINY, ClubArtwork.ACCENT, 170*s);
         label(dc, timeText, w/2, 84*s, Graphics.FONT_NUMBER_THAI_HOT, ClubArtwork.WHITE, 218*s);
-        label(dc, FaceFormat.steps(_data.stepCount), 82*s, 135*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 100*s);
-        label(dc, FaceFormat.heart(_data.heartRate), 179*s, 135*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 70*s);
-        label(dc, _stepsLabel, 82*s, 153*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 85*s);
-        label(dc, _heartLabel, 179*s, 153*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 65*s);
+        label(dc, FaceFormat.steps(_data.stepCount), 82*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 100*s);
+        label(dc, FaceFormat.heart(_data.heartRate), 179*s, 128*s, Graphics.FONT_SMALL, ClubArtwork.WHITE, 70*s);
+        label(dc, _stepsLabel, 82*s, 151*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 85*s);
+        label(dc, _heartLabel, 179*s, 151*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 65*s);
         dc.setColor(0x335555, Graphics.COLOR_TRANSPARENT);
         dc.drawLine(130*s, 125*s, 130*s, 151*s);
         ClubArtwork.draw(dc, w);
-        label(dc, _club, w/2, 228*s, Graphics.FONT_SMALL, ClubArtwork.ACCENT, 140*s);
+        label(dc, _club, w/2, (w >= 390 ? 220 : 228)*s, Graphics.FONT_TINY, ClubArtwork.ACCENT, 140*s);
         // Small MIP screens get only the main club name to preserve readability.
         if (w >= 390) {
-            label(dc, _tagline, w/2, 245*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 110*s);
+            if (dc.getTextWidthInPixels(_tagline, Graphics.FONT_XTINY) <= 110*s) {
+                label(dc, _tagline, w/2, 239*s, Graphics.FONT_XTINY, ClubArtwork.MUTED, 110*s);
+            }
         }
     }
 

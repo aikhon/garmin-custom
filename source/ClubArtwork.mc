@@ -11,17 +11,17 @@ module ClubArtwork {
     function draw(dc as Graphics.Dc, width as Number) as Void {
         var s = width / 260.0;
         dc.setColor(0x115544, Graphics.COLOR_TRANSPARENT);
-        dc.fillRoundedRectangle(42*s, 167*s, 176*s, 49*s, 24*s);
+        dc.fillRoundedRectangle(42*s, 163*s, 176*s, 45*s, 22*s);
         dc.setPenWidth(1);
         dc.setColor(ACCENT, Graphics.COLOR_TRANSPARENT);
         for (var lane = 0; lane < 3; lane += 1) {
             var inset = lane * 6;
-            dc.drawRoundedRectangle((46+inset)*s, (171+inset)*s,
-                (168-inset*2)*s, (41-inset*2)*s, (20-inset)*s);
+            dc.drawRoundedRectangle((46+inset)*s, (167+inset)*s,
+                (168-inset*2)*s, (37-inset*2)*s, (18-inset)*s);
         }
         // Two runners, an original scalable line illustration.
-        runner(dc, 112*s, 190*s, s, WHITE);
-        runner(dc, 148*s, 186*s, s, ACCENT);
+        runner(dc, 112*s, 184*s, s, WHITE);
+        runner(dc, 148*s, 180*s, s, ACCENT);
         dc.setPenWidth(1);
     }
 

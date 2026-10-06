@@ -1,7 +1,8 @@
 import Toybox.Test;
+import Toybox.Lang;
 
 (:test)
-function timeBoundaries(logger) {
+function timeBoundaries(logger as Test.Logger) as Boolean {
     Test.assertEqual(FaceFormat.time(0, 0, true), "00:00");
     Test.assertEqual(FaceFormat.time(0, 5, false), "12:05");
     Test.assertEqual(FaceFormat.time(12, 0, false), "12:00");
@@ -11,7 +12,7 @@ function timeBoundaries(logger) {
 }
 
 (:test)
-function missingAndLargeData(logger) {
+function missingAndLargeData(logger as Test.Logger) as Boolean {
     Test.assertEqual(FaceFormat.steps(null), "--");
     Test.assertEqual(FaceFormat.steps(0), "0");
     Test.assertEqual(FaceFormat.steps(999), "999");
