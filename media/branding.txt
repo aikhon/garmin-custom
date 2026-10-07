@@ -1,7 +1,16 @@
-Primary background: #CCFC00 (lime)
-Primary foreground and logo: #000000 (black)
+Design source: context/runclub_atyrau_garmin_watchface_design.md
+Background: #000000
+Lime primary: #CCFF00
+Lime bright: #D7FF00
+Lime dim: #536600
+Lime dark / contours: #273300
+White primary: #F4F4F4
+White secondary: #BEBEBE
+Graphite: #454545
+Graphite dark: #222222
 
-Confirmed by the club on 6 October 2026.
-Logo: logos/logo-runclub-black.png (original black artwork).
-Fonts and any additional artwork are still to be confirmed.
-Dark gray is used for secondary watch data. The AMOLED sleep clock is gray on black.
+This design brief supersedes the earlier full-screen lime prototype.
+Logo source: logos/logo-runclub-black.png, preserved; compiled in lime, placed at the top; embedded EST text hidden.
+Skyline source: skyline/lime_skyline.png, 90% screen width, ground line aligned to the bottom; deliberately cropped by the circular display.
+Fonts: Barlow Condensed ExtraBold, SemiBold, Bold, and Medium (OFL).
+Sleep: clock, date, small logo; black background.
