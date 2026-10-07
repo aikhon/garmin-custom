@@ -12,12 +12,18 @@ module FaceFormat {
     }
 
     function steps(value as Number or Null) as String {
-        if (value == null || value < 0) { return "--"; }
+        if (value == null || value < 0) { return "0"; }
         if (value < 1000) { return value.toString(); }
-        if (value < 100000) {
-            return (value / 1000).toNumber().toString() + "," + (value % 1000).format("%03d");
+        if (value < 99950) {
+            return (value / 1000.0).format("%.1f") + "K";
         }
-        return (value / 1000).toNumber().toString() + "k";
+        return (value / 1000.0).format("%.0f") + "K";
+    }
+
+    function distance(value as Number or Null) as String {
+        if (value == null || value < 0) { return "0.0"; }
+        var km = value / 100000.0;
+        return km < 9.95 ? km.format("%.1f") : km.format("%.0f");
     }
 
     function heart(value as Number or Null) as String {

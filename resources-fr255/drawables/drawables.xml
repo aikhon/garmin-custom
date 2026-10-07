@@ -1,0 +1,6 @@
+<drawables>
+    <bitmap id="Topography" filename="bg-topography.png"/>
+    <bitmap id="StepsIcon" filename="icon-steps.png"/>
+    <bitmap id="DistanceIcon" filename="icon-distance.png"/>
+    <bitmap id="HeartIcon" filename="icon-heart.png"/>
+</drawables>

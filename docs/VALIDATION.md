@@ -1,40 +1,39 @@
-# Prototype validation
+# Redesign validation
 
-Validated on 6 October 2026 using Garmin Connect IQ SDK 9.2.0 and the official device profiles. The supplied black Run Club Atyrau logo is displayed on a lime background.
+Validated on 6 October 2026 against Garmin Connect IQ SDK 9.2.0. The redesign follows the supplied Run Club Atyrau brief and incorporates the user's club logo and lime skyline. Original media is preserved.
 
-After the logo update, debug and release builds passed without warnings for all three targets and the active previews were inspected and refreshed. The original transparent PNG is scaled by Garmin's resource compiler. The 965 sleep/wake check confirmed that the lime active face switches to the dark always-on clock and returns on wake. Formatting logic is unchanged from the tested version.
+## Results
 
-## Build and runtime results
-
-| Target | Debug / release builds | Formatting tests (before branding update) | Observed simulator memory |
+| Target | Debug/release builds | Formatting tests | Observed simulator memory |
 | --- | --- | --- | --- |
-| Forerunner 255 | Pass, no compiler warnings | 2 passed, 0 failed | About 8.6 KB of 123.9 KB available |
-| Forerunner 265 | Pass, no compiler warnings | 2 passed, 0 failed | About 8.7 KB of 123.9 KB available |
-| Forerunner 965 | Pass, no compiler warnings | 2 passed, 0 failed | About 8.7 KB of 123.9 KB available |
+| Forerunner 255 | Pass, no warnings | 3 passed, 0 failed | About 15.5 KB of 123.9 KB available |
+| Forerunner 265 | Pass, no warnings | 3 passed, 0 failed | About 15.5 KB of 123.9 KB available |
+| Forerunner 965 | Pass, no warnings | 3 passed, 0 failed | About 15.5 KB of 123.9 KB available |
 
-Memory values are observed simulator readings, not measured physical battery consumption or exhaustive peak-memory profiles. Signing keys are local and excluded from version control.
+Formatting tests cover midnight/noon and 12/24-hour display, compact steps, missing readings, battery limits, and centimeter-to-kilometer conversion including the 10 km formatting boundary. Final typography and display-profile refinements do not change these data functions. The 255 tests were also rerun after replacing mutable display properties with build-time profiles.
 
-- `timeBoundaries` checks midnight, noon, 23:59, 12/24-hour formatting, and minute zero padding.
-- `missingAndLargeData` checks missing/zero heart rate, zero steps, comma-separated steps through 99,999, abbreviated 100,000 steps, and battery boundaries.
-- All six resource XML files pass the installed SDK's `resources.xsd`. PowerShell scripts pass syntax checks.
-- Launcher icons use each device's specified dimensions: 40 x 40, 60 x 60, and 65 x 65 respectively.
+Simulator memory figures are observed readings, not exhaustive peak-memory or physical battery measurements. Custom time fonts contain only the characters required for time; UI fonts contain the required English labels and numeric symbols.
 
-## Visual and display checks
+The 7 October layout update (90% skyline and a shared battery/date row) was compiled for all three targets and checked in their active simulator previews. Formatting logic and AMOLED sleep layout are unchanged by this update.
 
-Active layouts were inspected on all three target simulators. Time, date, battery, stats, and the actual club logo fit the round screens. Dark text and black logo artwork remain readable on the lime background. Tiny lettering inside the logo is naturally less detailed on the 260-pixel MIP screen.
+## Visual checks
 
-The Forerunner 265 completed Garmin's accelerated 24-hour burn-in simulation with screen protection enabled and **Burn-in State: NO**. Observed always-on luminance usage was approximately 0.15-0.2%, below Garmin's 10% limit. The Forerunner 965 received a brief always-on and wake check; its diagnostic reported **Burn-in State: NO** and **0.31%** usage. A second full 24-hour simulation was intentionally omitted for this prototype.
+- Metrics were moved down by 3% of the screen height to increase the gap below the time. The refreshed active previews show the gauges, values, and labels clear of both the clock and skyline; all three debug and release builds pass.
+- All three updated active layouts were inspected. The logo sits at the top above a single row containing the battery and date. Time, gauges, and their labels remain readable. EST 2019 is removed from active and sleep views.
+- Hours and colon are filled lime. Minutes use dedicated hollow white bitmap glyphs. Barlow Condensed is used throughout.
+- The skyline now spans 90% of the screen width, preserving its 3:1 aspect ratio. Its ground line is aligned to the bottom edge, with intentional cropping at the circular boundary. It uses the provided landmarks and has no tourism wordmark.
+- The 255 was checked with simulated 12,400 steps and a nonzero daily distance. Its compact step value remains readable inside the gauge; the formatter's 4.8 km case is covered by the centimeter-conversion test.
+- AMOLED sleep shows a small logo above the clock and date. Earlier diagnostics reported no burn-in state and roughly 0.6% pixel use, below the 10% limit; an accelerated 265 exercise completed. The updated group retains four separate bands with three minute intervals of rest for each band. Sleep previews were refreshed after reordering the group; the full burn-in exercise was not repeated for this layout change.
+- MIP sleep was inspected after the profile fix and retains large filled/outlined time, date, and a small logo. Its profile is now fixed in the binary instead of a persisted setting that could carry across simulator models.
 
-Additional smoke checks on downloaded MIP and AMOLED profiles confirmed readable rendering of 99,999 steps with missing heart rate, 12/24-hour mode changes, and the moving sleep clock. These do not add those models to the supported manifest.
+Genuine simulator captures (values are simulated watch data):
 
-These are genuine simulator window captures with simulated watch data:
+- [255 active](previews/fr255-active.png), [nonzero metrics](previews/fr255-metrics.png), [sleep](previews/fr255-sleep.png)
+- [265 active](previews/fr265-active.png), [sleep](previews/fr265-always-on.png), [diagnostic](previews/fr265-diagnostics.png)
+- [965 active](previews/fr965-active.png), [sleep](previews/fr965-always-on.png), [diagnostic](previews/fr965-diagnostics.png), [wake](previews/fr965-wake.png)
 
-- [255 active](previews/fr255-active.png)
-- [265 active](previews/fr265-active.png), [always-on](previews/fr265-always-on.png), [completed burn-in diagnostic](previews/fr265-diagnostics.png)
-- [965 active](previews/fr965-active.png), [always-on](previews/fr965-always-on.png), [diagnostic](previews/fr965-diagnostics.png), [wake](previews/fr965-wake.png)
+## Reproduction and remaining work
 
-## Delivery and remaining checks
+Builds and the installation ZIP are in bin/. Font atlases, icons, and contour textures can be regenerated with scripts/Generate-DesignResources.ps1; original font files and their OFL license are in media/fonts. Resource XML and PowerShell syntax are checked by the supplied validation script and parser checks.
 
-`bin/runclub-prototype.zip` contains the three model-specific release `.prg` files and USB installation instructions. Individual release binaries are also in `bin/`. No private keys or SDK files are included in the package.
-
-Before club-wide distribution, install the matching build on a physical watch and check outdoor legibility, recorded heart-rate availability, date rollover, system always-on settings, and battery use over normal wear. Non-English date rendering has not been exhaustively checked. Club branding, further device support, and Connect IQ Store publication are later steps.
+Before club-wide distribution, test on physical watches for outdoor legibility, recorded heart-rate availability, date rollover, and battery consumption. Distance currently uses KM, date labels use English, and additional device models require their own resources and builds. Store publication is pending. Font licensing is included with the test package.
