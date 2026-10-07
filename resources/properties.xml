@@ -1,4 +1,0 @@
-<properties>
-    <!-- Build-time display profile, not a user setting. -->
-    <property id="amoled" type="boolean">false</property>
-</properties>

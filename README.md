@@ -1,89 +1,77 @@
-# Runclub Garmin watch face
+# Run Club Atyrau Garmin watch face
 
-A Connect IQ / Monkey C prototype displaying the supplied Run Club Atyrau logo below digital time, date, battery, steps, and recent heart rate.
+A sports watch face built in Monkey C from the supplied design brief. The active face combines black, neon lime (#CCFF00), and white: filled lime hours, hollow white minutes, condensed Barlow typography, three activity gauges, the original club logo, subtle contours, and the supplied Atyrau skyline.
 
-The active face uses the original black logo (`#000000`) on a lime background (`#CCFC00`), with dark text. Club colors and the logo source are recorded in `media/branding.txt`. MIP devices map lime to their supported palette. The AMOLED sleep view uses a gray clock on black.
+[Forerunner 265 preview](docs/previews/fr265-active.png) · [Validation results](docs/VALIDATION.md)
 
-**Status:** debug and release builds compile without warnings for the Forerunner 255, 265, and 965 using Connect IQ SDK 9.2.0. Formatting tests passed on all three Garmin simulators before the visual branding update; data formatting is unchanged. Release binaries are in `bin/`; simulator evidence and the remaining hardware checks are recorded in [docs/VALIDATION.md](docs/VALIDATION.md).
+## Supported prototype targets
 
-## Initial targets
-
-| Garmin model | Product ID | Screen | Low-power behavior |
+| Model | Product ID | Screen | Sleep display |
 | --- | --- | --- | --- |
-| Forerunner 255 | `fr255` | 260 × 260, MIP | Full face, minute updates |
-| Forerunner 265 | `fr265` | 416 × 416, AMOLED | Small gray clock on black |
-| Forerunner 965 | `fr965` | 454 × 454, AMOLED | Small gray clock on black |
+| Forerunner 255 | fr255 | 260 x 260, MIP | Large clock, date, small logo |
+| Forerunner 265 | fr265 | 416 x 416, AMOLED | Small clock, date, logo in moving bands |
+| Forerunner 965 | fr965 | 454 x 454, AMOLED | Small clock, date, logo in moving bands |
 
-These targets have device-specific builds. Physical-watch testing is still required. Other models can be added after obtaining their Garmin device definitions and testing their layout and memory limits. Square and monochrome displays need their own design adaptation.
+Debug and release builds compile without warnings. Three formatting tests pass on all three target simulators. Real-watch testing and Store publication are pending. These files require the exact listed model; 255S, 255 Music, and 265S need separate builds.
 
-## Setup on this machine
+## Data and gauges
 
-1. The **Forerunner 255, 265, and 965** profiles and fonts are installed on this machine. On a fresh machine, open SDK Manager, sign in, and download those profiles. Keep its normal device-data location; if you choose a custom location, ensure the compiler and simulator use that same location.
-2. The downloaded SDK is `.tools/connectiq-sdk`. The installed Java 8 runtime successfully runs its 9.2.0 compiler. For another machine, install the SDK using [Garmin's setup page](https://developer.garmin.com/connect-iq/sdk/) and set `CONNECTIQ_SDK_HOME` to the SDK directory containing `bin`.
-3. The VS Code extension recommendation is included. For debugging, use **Monkey C: Verify Installation**, select the installed SDK, and configure your developer key through the extension. Command-line scripts work independently of VS Code settings.
-4. A local signing key was generated in `.secrets/developer_key.der`. Back up this key privately and reuse it for later releases. `.secrets`, downloaded tools, and build outputs are ignored by Git. On a fresh checkout, run `scripts/New-DeveloperKey.ps1` once or set `CONNECTIQ_DEVELOPER_KEY` to an existing key. Never replace a published app's signing key casually.
+- Time follows the watch's 12/24-hour setting. AM/PM appears beside the battery in 12-hour mode. Date uses English abbreviated names and the watch's local calendar.
+- Battery has a white outline icon with proportional lime fill. An unavailable percentage is hidden.
+- Steps come from today's ActivityMonitor data, abbreviated as 12.4K where needed. Missing steps display 0. The arc follows the watch's daily step goal, using 10,000 only if the goal is unavailable.
+- Distance comes from ActivityMonitor's daily distance in centimeters, converted to kilometers. Below 10 km it uses one decimal; larger distances use whole kilometers. Missing distance displays 0.0. The distance arc reaches full scale at 5 km.
+- Heart rate uses a positive recorded sample from the last five minutes. Missing or zero readings display --. Its arc uses a 0-200 BPM scale.
+- Gauges have 270-degree arcs with a bottom gap. Progress is clamped to 0-100%.
+- Data is cached for the current minute. No sensors are enabled, no health data is stored, and no network connection is needed.
 
-## Build and run
+Gauge scales and the normalized layout are centralized in source/DesignTokens.mc. Coordinates use the minimum screen dimension and a centered square, with fonts generated from a 454-pixel reference. The logo sits at the top. The skyline spans 90% of the screen width with its ground line anchored to the bottom; the round display deliberately crops the panorama.
 
-Run from this directory in PowerShell after device profiles have been installed:
+## Assets and typography
+
+Original media remains in media/:
+
+- logos/logo-runclub-black.png: original transparent club logo, compiled in lime. Its embedded EST text is masked in both active and sleep views; no year label is displayed.
+- skyline/lime_skyline.png: supplied skyline, including the original landmarks. The black variant is retained as source media. No tourism wordmark is rendered.
+- fonts/: original Barlow Condensed ExtraBold, SemiBold, Bold, and Medium files, with OFL.txt.
+- branding.txt: current colors and source references.
+
+Garmin scales the logo and skyline at compile time. PNG transparency is retained. The monochrome icons and contour resources are drawn deterministically from vector primitives by scripts/Generate-DesignResources.ps1. The same script generates device-specific bitmap-font atlases: TimeFilled contains only digits and colon, and TimeOutline contains only hollow digit shapes. Outlines are genuine rasterized glyph outlines, not repeated drawText calls.
+
+All fonts, icons, logo variants, skyline, and background resources are loaded once. Sleep mode removes contours, gauges, metrics, and skyline. AMOLED uses four non-overlapping bands to let pixels rest between appearances. The MIP clock remains large. Display type is compiled into each device binary and cannot be changed by stale app properties.
+
+To regenerate the committed design resources after font or device-size changes:
 
 ```powershell
-# All initial targets; a failure stops the script.
+.\scripts\Generate-DesignResources.ps1
+```
+
+## Build and test
+
+On this machine, SDK 9.2.0 is installed in .tools/connectiq-sdk, device profiles and fonts are installed, and a private signing key is in ignored .secrets/. VS Code has the official Garmin Monkey C extension. On a fresh machine, follow Garmin's SDK setup, download the three profiles, and set CONNECTIQ_SDK_HOME to the SDK directory containing bin. Generate a private key with scripts/New-DeveloperKey.ps1 or set CONNECTIQ_DEVELOPER_KEY to an existing key.
+
+```powershell
 .\scripts\Build.ps1
-
-# One target, then open the interactive Garmin simulator.
-.\scripts\Build.ps1 -Device fr265
+.\scripts\Build.ps1 -Release
 .\scripts\Simulate.ps1 -Device fr265
-
-# Unit-test build and run (uses Garmin's actual runtime).
 .\scripts\Build.ps1 -Device fr265 -TestBuild
 .\scripts\Simulate.ps1 -Device fr265 -Tests
-
-# Device binaries without debug information.
-.\scripts\Build.ps1 -Release
-```
-
-For a different SDK location:
-
-```powershell
-$env:CONNECTIQ_SDK_HOME = 'C:\path\to\connectiq-sdk'
-$env:CONNECTIQ_DEVELOPER_KEY = 'C:\private\developer_key.der'
-.\scripts\Build.ps1
-```
-
-If the compiler reports **Invalid device id**, the required Garmin device profile has not been installed or is not available in the compiler's configured device-data location. A manifest entry alone does not install a profile.
-
-## Behavior and customization
-
-- Time follows the watch's 12/24-hour setting. AM/PM appears next to the battery in 12-hour mode. The date uses Garmin's localized abbreviated day and month names; app labels are currently English.
-- Steps use daily activity data and show `--` when tracking is disabled or data is unavailable. Counts of 100,000 or more are abbreviated to keep the layout readable.
-- Heart rate uses a positive recorded sample from the last five minutes. Missing or zero readings show `--`. This is recent history, not a live sensor stream. The app does not enable sensors, request location, store health data, or make network requests.
-- Data reads are cached for the current minute. Garmin controls watch-face update callbacks; there are no timers, animations, seconds display, or partial updates.
-- AMOLED devices use a build-time display profile, including models whose `requiresBurnInProtection` flag is false. The sleep clock moves among four separate bands; see the validation record for measured pixel coverage. Always-on behavior also depends on the watch's system settings.
-- System fonts have size fallbacks, and coordinates scale from a 260-pixel round canvas. The supplied logo replaces the placeholder illustration and text branding.
-- The original logo is `media/logos/logo-runclub-black.png`. Its bitmap resource in `resources/drawables/drawables.xml` scales it at build time, retaining transparency and proportions. Colors and positioning live in `source/ClubArtwork.mc`; it contains no time or health-data logic. Do not bake changing numbers into artwork.
-- `resources-amoled/properties.xml` selects the AMOLED sleep behavior for the two AMOLED product entries in `monkey.jungle`. Add this override for any future AMOLED target.
-
-## Validation
-
-See [the validation record and previews](docs/VALIDATION.md). The pure formatting tests cover midnight/noon, 12/24-hour time, missing readings, large step counts, and battery boundaries. Both tests passed on all three target simulators and can be rerun using the commands above.
-
-All six resource XML files pass the installed SDK's schema. Repeat that check after changing resources:
-
-```powershell
 .\scripts\Check-Resources.ps1
 ```
 
-## Install on a watch after validation
+Use Monkey C: Verify Installation and configure the SDK/signing key in VS Code for debugging. Signing keys, downloaded tools, and generated binaries are excluded from Git. Back up the signing key privately for subsequent releases.
 
-1. Build the release for the **exact** model. For example, `Build.ps1 -Device fr265 -Release` creates `bin/runclub-fr265-release.prg`.
-2. Connect the watch by USB using a data-capable cable and copy that `.prg` to its `GARMIN/APPS` directory. Disconnect safely.
-3. Select **Runclub Prototype** in the watch's watch-face settings. Check readability outdoors, heart-rate availability, and wake/sleep transitions.
+## Install
 
-Do not use a 265 build on a 265S or another model; each needs its own manifest target and build. Club-wide distribution through the Connect IQ Store comes after real-device testing and final artwork. Store publication has not been performed.
+The local package bin/runclub-prototype.zip contains the three release PRG files, INSTALL.txt, and the bundled font's OFL license.
+
+1. Connect the exact supported watch with a USB data cable.
+2. Copy the matching runclub-frXXX-release.prg to its GARMIN/APPS folder.
+3. Disconnect safely and choose Run Club Atyrau in watch-face settings.
+4. Check outdoor legibility, sleep/wake behavior, real activity data, and battery use during normal wear.
 
 ## References
 
-- [Garmin: first Connect IQ app and device installation](https://developer.garmin.com/connect-iq/connect-iq-basics/your-first-app/)
-- [Garmin: watch-face display guidelines](https://developer.garmin.com/connect-iq/user-experience-guidelines/watch-faces/)
-- [Garmin: SensorHistory API](https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html)
+- Garmin setup: https://developer.garmin.com/connect-iq/sdk/
+- Watch-face guidelines: https://developer.garmin.com/connect-iq/user-experience-guidelines/watch-faces/
+- ActivityMonitor API: https://developer.garmin.com/connect-iq/api-docs/Toybox/ActivityMonitor/Info.html
+- Barlow Condensed source and license: https://github.com/google/fonts/tree/main/ofl/barlowcondensed

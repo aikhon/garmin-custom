@@ -1,5 +1,9 @@
 project.manifest = manifest.xml
 base.sourcePath = source;tests
 base.resourcePath = resources
-fr265.resourcePath = $(base.resourcePath);resources-amoled;resources-fr265
-fr965.resourcePath = $(base.resourcePath);resources-amoled;resources-fr965
+fr255.resourcePath = $(base.resourcePath);resources-fr255
+fr265.resourcePath = $(base.resourcePath);resources-fr265
+fr965.resourcePath = $(base.resourcePath);resources-fr965
+fr255.sourcePath = $(base.sourcePath);source-mip
+fr265.sourcePath = $(base.sourcePath);source-amoled
+fr965.sourcePath = $(base.sourcePath);source-amoled
