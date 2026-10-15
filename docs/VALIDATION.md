@@ -1,5 +1,17 @@
 # Redesign validation
 
+## Lime and black palette — 16 October 2026
+
+The `redesign/lime-and-black` branch uses a #CCFF00 active background with black time, text, icons, logo, skyline, and gauge progress. Inactive tracks and contours use muted lime. MIP sleep follows the same palette; AMOLED sleep retains gray text and logo on black, including the black mask over the embedded EST text.
+
+All three targets (fr255, fr265, fr965) compile successfully in debug and release with no compiler warnings. Resource XML validation and `git diff --check` pass. Bitmap icons, contours, and launcher resources were regenerated from the updated scripts. Formatting functions were not changed; simulator tests were not rerun for this palette update.
+
+Typography now uses Chakra Petch Bold for the filled/outlined clock and metric values, SemiBold for status text, and Medium for labels. Time fonts use a 132-pixel reference size to accommodate the wider digits. All three debug and release builds were regenerated successfully after this change. The Forerunner 265 active face was loaded and visually inspected in the simulator: clock, date, battery, gauges, and labels fit clearly. See the [current Chakra Petch simulator capture](previews/fr265-chakra-petch.png).
+
+Updated 255/965 simulator captures, sleep-mode visual checks, physical-watch legibility, and battery checks are pending. The results and preview images below describe the earlier black-background design.
+
+## Previous design validation
+
 Validated on 6 October 2026 against Garmin Connect IQ SDK 9.2.0. The redesign follows the supplied Run Club Atyrau brief and incorporates the user's club logo and lime skyline. Original media is preserved.
 
 ## Results

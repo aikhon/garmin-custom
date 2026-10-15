@@ -1,11 +1,12 @@
 module DesignTokens {
-    const BACKGROUND = 0x000000;
-    const LIME = 0xCCFF00;
-    const LIME_DIM = 0x536600;
-    const TOPO = 0x273300;
-    const WHITE = 0xF4F4F4;
-    const SECONDARY = 0xBEBEBE;
-    const GRAPHITE = 0x454545;
+    const PRIMARY = 0xCCFF00;
+    const SECONDARY = 0x000000;
+    const BACKGROUND = PRIMARY;
+    const FOREGROUND = SECONDARY;
+    const GAUGE_TRACK = 0x99BB00;
+    // AMOLED sleep keeps a separate, sparse palette to limit lit pixels.
+    const SLEEP_BACKGROUND = 0x000000;
+    const SLEEP_FOREGROUND = 0xBEBEBE;
     const LOGO_Y = 0.105;
     const STATUS_ROW_Y = 0.23;
     const TIME_Y = 0.400;

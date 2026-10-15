@@ -2,13 +2,13 @@
     <bitmap id="LauncherIcon" filename="launcher.png"/>
     <bitmap id="ClubLogo" filename="../../media/logos/logo-runclub-black.png"
         scaleX="34%" scaleY="11.3569%" scaleRelativeTo="screen" dithering="none">
-        <palette><color>CCFF00</color></palette>
+        <palette><color>000000</color></palette>
     </bitmap>
     <bitmap id="SleepLogo" filename="../../media/logos/logo-runclub-black.png"
         scaleX="11%" scaleY="3.6743%" scaleRelativeTo="screen" dithering="none">
         <palette><color>BEBEBE</color></palette>
     </bitmap>
-    <bitmap id="Skyline" filename="../../media/skyline/lime_skyline.png"
+    <bitmap id="Skyline" filename="../../media/skyline/black_skyline.png"
         scaleX="90%" scaleY="30%" scaleRelativeTo="screen" dithering="none">
         <palette><color>CCFF00</color><color>000000</color></palette>
     </bitmap>

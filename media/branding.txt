@@ -1,16 +1,13 @@
 Design source: context/runclub_atyrau_garmin_watchface_design.md
-Background: #000000
-Lime primary: #CCFF00
-Lime bright: #D7FF00
-Lime dim: #536600
-Lime dark / contours: #273300
-White primary: #F4F4F4
-White secondary: #BEBEBE
-Graphite: #454545
-Graphite dark: #222222
+Lime primary / active background: #CCFF00
+Black secondary / active foreground: #000000
+Inactive gauge tracks: #99BB00
+Contours: #B3D900
+AMOLED sleep background: #000000
+AMOLED sleep text and logo: #BEBEBE
 
-This design brief supersedes the earlier full-screen lime prototype.
-Logo source: logos/logo-runclub-black.png, preserved; compiled in lime, placed at the top; embedded EST text hidden.
-Skyline source: skyline/lime_skyline.png, 90% screen width, ground line aligned to the bottom; deliberately cropped by the circular display.
-Fonts: Barlow Condensed ExtraBold, SemiBold, Bold, and Medium (OFL).
-Sleep: clock, date, small logo; black background.
+The redesign/lime-and-black palette supersedes the black-background design brief.
+Logo source: logos/logo-runclub-black.png, preserved; compiled in black, placed at the top; embedded EST text hidden.
+Skyline source: skyline/black_skyline.png, black with lime details, 90% screen width, ground line aligned to the bottom; deliberately cropped by the circular display.
+Fonts: Chakra Petch Bold (time and metric values), SemiBold (status), and Medium (labels), under the bundled ChakraPetch-OFL.txt license. Original Barlow fonts are retained.
+Sleep: clock, date, small logo; lime background with black foreground on MIP, black background with gray foreground on AMOLED.

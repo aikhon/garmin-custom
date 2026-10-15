@@ -65,7 +65,7 @@ class RunclubView extends WatchUi.WatchFace {
         var months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
         var day = days[(date.day_of_week as Number)-1];
         var rest = date.day.format("%02d") + " " + months[(date.month as Number)-1];
-        dc.setColor(DesignTokens.WHITE, DesignTokens.BACKGROUND);
+        dc.setColor(DesignTokens.FOREGROUND, (_sleeping && _amoled) ? DesignTokens.SLEEP_BACKGROUND : DesignTokens.BACKGROUND);
         dc.clear();
         if (_sleeping) {
             drawSleep(dc, timeText, day+" "+rest, minute);
@@ -105,9 +105,9 @@ class RunclubView extends WatchUi.WatchFace {
         var leftWidth = dc.getTextWidthInPixels(hours,_filled);
         var rightWidth = dc.getTextWidthInPixels(minutes,_outline);
         var start = x(0.5)-(leftWidth+rightWidth)/2;
-        dc.setColor(DesignTokens.LIME,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
         dc.drawText(start,y(DesignTokens.TIME_Y),_filled,hours,Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-        dc.setColor(DesignTokens.WHITE,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
         dc.drawText(start+leftWidth,y(DesignTokens.TIME_Y),_outline,minutes,Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
@@ -125,9 +125,9 @@ class RunclubView extends WatchUi.WatchFace {
     private function drawDate(dc as Graphics.Dc, day as String, rest as String, start as Numeric) as Void {
         var a = day+" ";
         var width = dc.getTextWidthInPixels(a,_ui);
-        dc.setColor(DesignTokens.LIME,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
         dc.drawText(start,y(DesignTokens.STATUS_ROW_Y),_ui,a,Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-        dc.setColor(DesignTokens.WHITE,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
         dc.drawText(start+width,y(DesignTokens.STATUS_ROW_Y),_ui,rest,Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
@@ -138,16 +138,16 @@ class RunclubView extends WatchUi.WatchFace {
         var gap = _s*0.015;
         var top = y(DesignTokens.STATUS_ROW_Y)-h/2;
         dc.setPenWidth(1);
-        dc.setColor(DesignTokens.WHITE,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
         dc.drawRectangle(start,top,w,h);
         dc.fillRectangle(start+w,top+h*0.3,_s*0.006,h*0.4);
         if (value != null && value > 0) {
             var progress = value.toFloat()/100;
             if (progress > 1) { progress = 1.0; }
-            dc.setColor(DesignTokens.LIME,Graphics.COLOR_TRANSPARENT);
+            dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
             dc.fillRectangle(start+2,top+2,(w-4)*progress,h-4);
         }
-        dc.setColor(DesignTokens.WHITE,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
         dc.drawText(start+w+gap,y(DesignTokens.STATUS_ROW_Y),_ui,batteryText,Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
@@ -162,10 +162,10 @@ class RunclubView extends WatchUi.WatchFace {
         var stroke = (5*_s/454.0).toNumber();
         if (stroke < 2) { stroke = 2; }
         dc.setPenWidth(stroke);
-        dc.setColor(DesignTokens.GRAPHITE,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(DesignTokens.GAUGE_TRACK,Graphics.COLOR_TRANSPARENT);
         dc.drawArc(cx,cy,radius,Graphics.ARC_CLOCKWISE,225,315);
         if (progress > 0) {
-            dc.setColor(DesignTokens.LIME,Graphics.COLOR_TRANSPARENT);
+            dc.setColor(DesignTokens.FOREGROUND,Graphics.COLOR_TRANSPARENT);
             dc.drawArc(cx,cy,radius,Graphics.ARC_CLOCKWISE,225,(225-270*progress+360).toNumber()%360);
         }
         dc.setPenWidth(1);
@@ -174,39 +174,39 @@ class RunclubView extends WatchUi.WatchFace {
         var font = _bold;
         if (dc.getTextWidthInPixels(value,font) > _s*0.155) { font = _ui; }
         if (dc.getTextWidthInPixels(value,font) > _s*0.155) { font = _label; }
-        text(dc,value,cx,y(DesignTokens.METRIC_VALUE_Y),font,DesignTokens.WHITE);
-        text(dc,unit,cx,y(DesignTokens.METRIC_UNIT_Y),_label,DesignTokens.SECONDARY);
+        text(dc,value,cx,y(DesignTokens.METRIC_VALUE_Y),font,DesignTokens.FOREGROUND);
+        text(dc,unit,cx,y(DesignTokens.METRIC_UNIT_Y),_label,DesignTokens.FOREGROUND);
     }
 
     private function drawBrand(dc as Graphics.Dc) as Void {
-        drawLogo(dc,_logo,DesignTokens.LOGO_Y);
+        drawLogo(dc,_logo,DesignTokens.LOGO_Y,DesignTokens.BACKGROUND);
     }
 
-    private function drawLogo(dc as Graphics.Dc, logo as WatchUi.BitmapResource, centerY as Numeric) as Void {
+    private function drawLogo(dc as Graphics.Dc, logo as WatchUi.BitmapResource, centerY as Numeric, background as Number) as Void {
         var w = logo.getWidth();
         var h = logo.getHeight();
         var left = x(0.5)-w/2;
         var top = y(centerY)-h/2;
         dc.drawBitmap(left,top,logo);
         // Remove the embedded EST text while preserving the original logo.
-        dc.setColor(DesignTokens.BACKGROUND,Graphics.COLOR_TRANSPARENT);
+        dc.setColor(background,Graphics.COLOR_TRANSPARENT);
         dc.fillRectangle(left+w*899/1440.0,top+h*287/481.0,w*203/1440.0,h*44/481.0);
     }
 
     private function drawSleep(dc as Graphics.Dc, clock as String, date as String, minute as Number) as Void {
         if (!_amoled) {
             // MIP has no AMOLED pixel budget: retain a large readable clock.
-            text(dc,date,x(0.5),y(DesignTokens.STATUS_ROW_Y),_ui,DesignTokens.SECONDARY);
+            text(dc,date,x(0.5),y(DesignTokens.STATUS_ROW_Y),_ui,DesignTokens.FOREGROUND);
             drawHero(dc,clock);
-            drawLogo(dc,_sleepLogo,DesignTokens.LOGO_Y);
+            drawLogo(dc,_sleepLogo,DesignTokens.LOGO_Y,DesignTokens.BACKGROUND);
             return;
         }
         // Four non-overlapping bands on AMOLED. Text and logo pixels get three
         // minutes of rest between appearances. MIP uses a static centered group.
         var center = 0.235+(minute%4)*0.17;
-        drawLogo(dc,_sleepLogo,center-0.060);
-        text(dc,clock,x(0.5),y(center-0.005),_bold,DesignTokens.SECONDARY);
-        text(dc,date,x(0.5),y(center+0.045),_label,DesignTokens.SECONDARY);
+        drawLogo(dc,_sleepLogo,center-0.060,DesignTokens.SLEEP_BACKGROUND);
+        text(dc,clock,x(0.5),y(center-0.005),_bold,DesignTokens.SLEEP_FOREGROUND);
+        text(dc,date,x(0.5),y(center+0.045),_label,DesignTokens.SLEEP_FOREGROUND);
     }
 
     private function text(dc as Graphics.Dc, value as String, px as Numeric, py as Numeric, font as Graphics.FontType, color as Number) as Void {
