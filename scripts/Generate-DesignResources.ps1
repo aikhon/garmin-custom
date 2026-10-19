@@ -77,7 +77,8 @@ public static class RunclubAssets {
 $root = Split-Path $PSScriptRoot -Parent
 $uiCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .:-/%K'
 $uiCharacters = -join ($uiCharacters.ToCharArray() | Select-Object -Unique)
-foreach ($target in @(@{Id='fr255';Size=260},@{Id='fr265';Size=416},@{Id='fr965';Size=454})) {
+# The 970 shares the 965's 454-pixel resources.
+foreach ($target in @(@{Id='fr55';Size=208},@{Id='fr165';Size=390},@{Id='fr255';Size=260},@{Id='fr255sm';Size=218},@{Id='fr265';Size=416},@{Id='fr965';Size=454})) {
     $folder = Join-Path $root ('resources-' + $target.Id)
     $fonts = Join-Path $folder 'fonts'
     $drawables = Join-Path $folder 'drawables'

@@ -4,9 +4,13 @@
         name="@Strings.AppName" entry="RunclubApp" launcherIcon="@Drawables.LauncherIcon"
         minApiLevel="3.2.0">
         <iq:products>
+            <iq:product id="fr55"/>
+            <iq:product id="fr165"/>
             <iq:product id="fr255"/>
+            <iq:product id="fr255sm"/>
             <iq:product id="fr265"/>
             <iq:product id="fr965"/>
+            <iq:product id="fr970"/>
         </iq:products>
         <iq:permissions>
             <iq:uses-permission id="SensorHistory"/>

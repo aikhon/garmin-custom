@@ -3,6 +3,8 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
 foreach ($target in @(
     @{Size=40;Folder='resources'},
+    @{Size=35;Folder='resources-fr55'},
+    @{Size=54;Folder='resources-fr165'},
     @{Size=60;Folder='resources-fr265'},
     @{Size=65;Folder='resources-fr965'}
 )) {

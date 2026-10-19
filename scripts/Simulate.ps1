@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('fr255','fr265','fr965')][string]$Device = 'fr265',
+    [ValidateSet('fr55','fr165','fr255','fr255sm','fr265','fr965','fr970')][string]$Device = 'fr265',
     [string]$SdkPath = $env:CONNECTIQ_SDK_HOME,
     [switch]$Tests
 )

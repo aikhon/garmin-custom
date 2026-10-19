@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [ValidateSet('fr255','fr265','fr965','all')][string]$Device = 'all',
+    [ValidateSet('fr55','fr165','fr255','fr255sm','fr265','fr965','fr970','all')][string]$Device = 'all',
     [string]$SdkPath = $env:CONNECTIQ_SDK_HOME,
     [string]$DeveloperKey = $env:CONNECTIQ_DEVELOPER_KEY,
     [switch]$Release,
@@ -13,7 +13,7 @@ $compiler = Join-Path $SdkPath 'bin\monkeyc.bat'
 if (!(Test-Path -LiteralPath $compiler)) { throw 'SDK not found. Set CONNECTIQ_SDK_HOME to your SDK directory; see README.md.' }
 if (!$DeveloperKey) { $DeveloperKey = Join-Path $projectRoot '.secrets\developer_key.der' }
 if (!(Test-Path -LiteralPath $DeveloperKey)) { throw 'Signing key missing. Run scripts/New-DeveloperKey.ps1 or set CONNECTIQ_DEVELOPER_KEY.' }
-$devices = if ($Device -eq 'all') { @('fr255','fr265','fr965') } else { @($Device) }
+$devices = if ($Device -eq 'all') { @('fr55','fr165','fr255','fr255sm','fr265','fr965','fr970') } else { @($Device) }
 $outDir = Join-Path $projectRoot 'bin'
 New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 Push-Location $projectRoot
