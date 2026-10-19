@@ -86,6 +86,8 @@ foreach ($target in @(@{Id='fr255';Size=260},@{Id='fr265';Size=416},@{Id='fr965'
     foreach ($spec in @(
         @{Name='TimeFilled';Weight='ExtraBold';Em=148;Outline=$false;Chars='0123456789:'},
         @{Name='TimeOutline';Weight='ExtraBold';Em=148;Outline=$true;Chars='0123456789'},
+        @{Name='SleepTime';Weight='Bold';Em=40;Outline=$false;Chars='0123456789:'},
+        @{Name='SleepDate';Weight='Medium';Em=26;Outline=$false;Chars=$uiCharacters},
         @{Name='UiSemiBold';Weight='SemiBold';Em=28;Outline=$false;Chars=$uiCharacters},
         @{Name='UiBold';Weight='Bold';Em=34;Outline=$false;Chars=$uiCharacters},
         @{Name='UiLabel';Weight='Medium';Em=22;Outline=$false;Chars=$uiCharacters},
@@ -93,7 +95,7 @@ foreach ($target in @(@{Id='fr255';Size=260},@{Id='fr265';Size=416},@{Id='fr965'
     )) {
         [RunclubAssets]::FontAtlas((Join-Path $root ('media\fonts\BarlowCondensed-'+$spec.Weight+'.ttf')),$fonts,$spec.Name,[int][Math]::Round($spec.Em*$scale),$spec.Outline,$spec.Chars)
     }
-    $fontXml = '<fonts>' + ((@('TimeFilled','TimeOutline','UiSemiBold','UiBold','UiLabel','UiTiny') | ForEach-Object { '<font id="'+$_+'" filename="'+$_+'.fnt"/>' }) -join '') + '</fonts>'
+    $fontXml = '<fonts>' + ((@('TimeFilled','TimeOutline','SleepTime','SleepDate','UiSemiBold','UiBold','UiLabel','UiTiny') | ForEach-Object { '<font id="'+$_+'" filename="'+$_+'.fnt"/>' }) -join '') + '</fonts>'
     [System.IO.File]::WriteAllText((Join-Path $fonts 'fonts.xml'),$fontXml,(New-Object System.Text.UTF8Encoding $false))
     [RunclubAssets]::Topography((Join-Path $drawables 'bg-topography.png'),$target.Size)
     foreach ($kind in @('steps','distance','heart')) {

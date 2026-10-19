@@ -5,7 +5,7 @@
         <palette><color>CCFF00</color></palette>
     </bitmap>
     <bitmap id="SleepLogo" filename="../../media/logos/logo-runclub-black.png"
-        scaleX="11%" scaleY="3.6743%" scaleRelativeTo="screen" dithering="none">
+        scaleX="15%" scaleY="5.0104%" scaleRelativeTo="screen" dithering="none">
         <palette><color>BEBEBE</color></palette>
     </bitmap>
     <bitmap id="Skyline" filename="../../media/skyline/lime_skyline.png"

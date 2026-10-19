@@ -20,6 +20,8 @@ class RunclubView extends WatchUi.WatchFace {
     private var _icons as Array<WatchUi.BitmapResource>;
     private var _filled as Graphics.FontType;
     private var _outline as Graphics.FontType;
+    private var _sleepTime as Graphics.FontType;
+    private var _sleepDate as Graphics.FontType;
     private var _ui as Graphics.FontType;
     private var _bold as Graphics.FontType;
     private var _label as Graphics.FontType;
@@ -38,6 +40,8 @@ class RunclubView extends WatchUi.WatchFace {
                   WatchUi.loadResource(Rez.Drawables.HeartIcon) as WatchUi.BitmapResource];
         _filled = WatchUi.loadResource(Rez.Fonts.TimeFilled) as WatchUi.FontResource;
         _outline = WatchUi.loadResource(Rez.Fonts.TimeOutline) as WatchUi.FontResource;
+        _sleepTime = WatchUi.loadResource(Rez.Fonts.SleepTime) as WatchUi.FontResource;
+        _sleepDate = WatchUi.loadResource(Rez.Fonts.SleepDate) as WatchUi.FontResource;
         _ui = WatchUi.loadResource(Rez.Fonts.UiSemiBold) as WatchUi.FontResource;
         _bold = WatchUi.loadResource(Rez.Fonts.UiBold) as WatchUi.FontResource;
         _label = WatchUi.loadResource(Rez.Fonts.UiLabel) as WatchUi.FontResource;
@@ -203,10 +207,10 @@ class RunclubView extends WatchUi.WatchFace {
         }
         // Four non-overlapping bands on AMOLED. Text and logo pixels get three
         // minutes of rest between appearances. MIP uses a static centered group.
-        var center = 0.235+(minute%4)*0.17;
-        drawLogo(dc,_sleepLogo,center-0.060);
-        text(dc,clock,x(0.5),y(center-0.005),_bold,DesignTokens.SECONDARY);
-        text(dc,date,x(0.5),y(center+0.045),_label,DesignTokens.SECONDARY);
+        var center = 0.215+(minute%4)*0.19;
+        drawLogo(dc,_sleepLogo,center-0.070);
+        text(dc,clock,x(0.5),y(center-0.005),_sleepTime,DesignTokens.SECONDARY);
+        text(dc,date,x(0.5),y(center+0.060),_sleepDate,DesignTokens.SECONDARY);
     }
 
     private function text(dc as Graphics.Dc, value as String, px as Numeric, py as Numeric, font as Graphics.FontType, color as Number) as Void {

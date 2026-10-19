@@ -1,5 +1,19 @@
 # Redesign validation
 
+## Small sleep-display increase — 19 October 2026
+
+Based on `redesign/black-and-lime` at `f518063`. AMOLED sleep uses dedicated
+40-pixel reference clock and 26-pixel date fonts, up from 34 and 22 pixels.
+The sleep logo grows from 11% to 15% of screen width. Four moving bands are
+spaced slightly farther apart to accommodate the larger group. Active-mode
+fonts, colors, layout, and the three supported models are unchanged.
+
+All three release builds and the combined `bin/runclub-black-and-lime.iq`
+export pass without warnings. Resource XML validation and `git diff --check`
+pass. The updated 265 sleep display was inspected in the simulator; see
+[preview](previews/fr265-sleep-small-increase.png). Physical-watch checks and
+a renewed full AMOLED burn-in diagnostic remain pending.
+
 Validated on 6 October 2026 against Garmin Connect IQ SDK 9.2.0. The redesign follows the supplied Run Club Atyrau brief and incorporates the user's club logo and lime skyline. Original media is preserved.
 
 ## Results
