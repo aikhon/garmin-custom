@@ -8,11 +8,15 @@ A sports watch face built in Monkey C from the supplied design brief. The active
 
 | Model | Product ID | Screen | Sleep display |
 | --- | --- | --- | --- |
+| Forerunner 55 | fr55 | 208 x 208, 8-color MIP | Large clock, date, small logo |
+| Forerunner 165 | fr165 | 390 x 390, AMOLED | Clock, date, logo in moving bands |
 | Forerunner 255 | fr255 | 260 x 260, MIP | Large clock, date, small logo |
+| Forerunner 255S Music | fr255sm | 218 x 218, MIP | Large clock, date, small logo |
 | Forerunner 265 | fr265 | 416 x 416, AMOLED | Small clock, date, logo in moving bands |
 | Forerunner 965 | fr965 | 454 x 454, AMOLED | Small clock, date, logo in moving bands |
+| Forerunner 970 | fr970 | 454 x 454, AMOLED | Clock, date, logo in moving bands |
 
-Debug and release builds compile without warnings. Three formatting tests pass on all three target simulators. Real-watch testing and Store publication are pending. These files require the exact listed model; 255S, 255 Music, and 265S need separate builds.
+Release and test builds compile without warnings. Three formatting tests pass on each of the seven target simulators. Active and sleep displays were inspected for all four added models. Physical-watch validation of the added models and Store publication are pending. These files require the exact listed model; 165 Music, 255S without Music, 255 Music, and 265S need separate support. The 55 renders lime as yellow in its eight-color palette; background dithering is disabled for a clean display.
 
 ## Data and gauges
 
@@ -47,7 +51,7 @@ To regenerate the committed design resources after font or device-size changes:
 
 ## Build and test
 
-On this machine, SDK 9.2.0 is installed in .tools/connectiq-sdk, device profiles and fonts are installed, and a private signing key is in ignored .secrets/. VS Code has the official Garmin Monkey C extension. On a fresh machine, follow Garmin's SDK setup, download the three profiles, and set CONNECTIQ_SDK_HOME to the SDK directory containing bin. Generate a private key with scripts/New-DeveloperKey.ps1 or set CONNECTIQ_DEVELOPER_KEY to an existing key.
+On this machine, SDK 9.2.0 is installed in .tools/connectiq-sdk, device profiles and fonts are installed, and a private signing key is in ignored .secrets/. VS Code has the official Garmin Monkey C extension. On a fresh machine, follow Garmin's SDK setup, download the seven supported profiles, and set CONNECTIQ_SDK_HOME to the SDK directory containing bin. Generate a private key with scripts/New-DeveloperKey.ps1 or set CONNECTIQ_DEVELOPER_KEY to an existing key.
 
 ```powershell
 .\scripts\Build.ps1
@@ -62,7 +66,7 @@ Use Monkey C: Verify Installation and configure the SDK/signing key in VS Code f
 
 ## Install
 
-The local package bin/runclub-prototype.zip contains the three release PRG files, INSTALL.txt, and the bundled font's OFL license.
+The local package bin/runclub-prototype.zip contains the seven release PRG files, INSTALL.txt, and the bundled font's OFL license. For Connect IQ Store upload, use bin/runclub-black-and-lime.iq, which includes all seven supported models. Re-export with **Monkey C: Export Project** after changing source, resources, or supported devices.
 
 1. Connect the exact supported watch with a USB data cable.
 2. Copy the matching runclub-frXXX-release.prg to its GARMIN/APPS folder.

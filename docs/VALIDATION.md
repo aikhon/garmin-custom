@@ -1,5 +1,36 @@
 # Redesign validation
 
+## Run Club survey models — 19 October 2026
+
+Added the exact survey targets: Forerunner 55 (`fr55`), 165 (`fr165`),
+255S Music (`fr255sm`), and 970 (`fr970`), alongside the existing 255, 265,
+and 965. The 970 shares the 965's 454-pixel assets; the other added models
+have resources generated for their actual screen sizes and launcher icons.
+MIP and AMOLED profiles remain fixed at build time. The current sleep fonts
+and enlarged logo are retained.
+
+All seven release and test builds compile without warnings. Each simulator
+passes all three formatting tests (21 passes total). Active and sleep
+screens for the four added models were visually inspected. The 55 uses
+yellow for lime in its eight-color palette, with background dithering
+disabled to remove colored speckles. Observed memory was about 44.5 KB of
+91.9 KB on the 55 and 15.7–15.9 KB of 123.9 KB on the other added models.
+These observations do not measure peak memory or physical battery use.
+
+The combined `bin/runclub-black-and-lime.iq` exports successfully for all
+seven model profiles, including their SDK-listed hardware variants. The
+local installation ZIP contains the seven matching release files. Resource
+XML validation and `git diff --check` pass. Physical-watch testing of these
+added models, including outdoor legibility, activity data, and sleep/wake
+behavior, remains pending; a full AMOLED burn-in diagnostic was not rerun.
+
+Simulator previews:
+
+- [55 active](previews/fr55-active.png), [sleep](previews/fr55-sleep.png)
+- [165 active](previews/fr165-active.png), [always-on](previews/fr165-always-on.png)
+- [255S Music active](previews/fr255sm-active.png), [sleep](previews/fr255sm-sleep.png)
+- [970 active](previews/fr970-active.png), [always-on](previews/fr970-always-on.png)
+
 ## Small sleep-display increase — 19 October 2026
 
 Based on `redesign/black-and-lime` at `f518063`. AMOLED sleep uses dedicated
